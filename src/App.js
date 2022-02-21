@@ -1,25 +1,54 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import Box from "./Box";
+import "./App.css";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      colors: Array(16)
+        .fill()
+        .map(() => {
+          return {
+            red: Math.floor(Math.random() * 256),
+            green: Math.floor(Math.random() * 256),
+            blue: Math.floor(Math.random() * 256),
+          };
+        }),
+    };
+    this.changeColor = this.changeColor.bind(this);
+  }
+  changeColor = (e) => {
+    const newColors = [...this.state.colors];
+    newColors[e] = {
+      red: Math.floor(Math.random() * 256),
+      green: Math.floor(Math.random() * 256),
+      blue: Math.floor(Math.random() * 256),
+    };
+    this.setState({
+      colors: newColors,
+    });
+  };
+  render() {
+    return (
+      <div className="App">
+        <h1>Color Palette</h1>
+
+        <div className="palette">
+          {this.state.colors.map((color, index) => {
+            return (
+              <Box
+                key={Math.random()}
+                color={color}
+                onClick={this.changeColor.bind(this, index)}
+                id={index}
+              />
+            );
+          })}
+        </div>
+      </div>
+    );
+  }
 }
 
 export default App;
